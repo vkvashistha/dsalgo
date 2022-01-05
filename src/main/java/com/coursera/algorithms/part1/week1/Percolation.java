@@ -10,7 +10,7 @@ public class Percolation {
 
   // creates n-by-n grid, with all sites initially blocked
   public Percolation(int n) {
-      if (n < 0) {
+      if (n <= 0) {
           throw new IllegalArgumentException(
               String.format(
                   "Input argument must be non negative"));
@@ -21,11 +21,11 @@ public class Percolation {
 
   // opens the site (row, col) if it is not open already
   public void open(int row, int col) {
-    if (row < 0 || row >= grid.length || col < 0 || col >= grid.length) {
+    if (row < 1 || row > grid.length || col < 1 || col > grid.length) {
       throw new IllegalArgumentException(
           String.format(
               "Given arguments" + " (%d,%d) is out of bound (%d,%d)",
-              row, col, grid.length - 1, grid.length - 1));
+              row, col, grid.length, grid.length));
     }
     int i = row - 1;
     int j = col - 1;
@@ -56,14 +56,14 @@ public class Percolation {
     }
   }
 
-  private int getIndex(int row, int col) {
-    if (row < 0 || row >= grid.length || col < 0 || col >= grid.length) {
+  private int getIndex(int rowIndex, int colIndex) {
+    if (rowIndex < 0 || rowIndex >= grid.length || colIndex < 0 || colIndex >= grid.length) {
       throw new IllegalArgumentException(
           String.format(
               "Given arguments" + " (%d,%d) is out of bound (%d,%d)",
-              row, col, grid.length - 1, grid.length - 1));
+              rowIndex, colIndex, grid.length - 1, grid.length - 1));
     }
-    return row * grid.length + col;
+    return rowIndex * grid.length + colIndex;
   }
 
   // is the site (row, col) open?
