@@ -60,7 +60,9 @@ public class Deque<Item> implements Iterable<Item> {
     if (isEmpty()) {
       throw new NoSuchElementException("No element exist");
     }
-    first.next.prev = null;
+    if (first.next != null) {
+      first.next.prev = null;
+    }
     Node<Item> firstNode = first;
     first = first.next;
     size--;
@@ -72,7 +74,9 @@ public class Deque<Item> implements Iterable<Item> {
     if (isEmpty()) {
       throw new NoSuchElementException("No element exist");
     }
-    last.prev.next = null;
+    if (last.prev != null) {
+      last.prev.next = null;
+    }
     Node<Item> lastNode = last;
     last = last.prev;
     size--;
