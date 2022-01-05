@@ -1,0 +1,10 @@
+0,horse,horse
+1,cat,horse
+2,zebra,zebra
+3,dog,dog
+4,tiger,tiger
+5,lion,lion
+6,wild_animal,wild_animal
+7,domestic_animal,domestic_animal
+8,animal,animal
+9,pet,pet
