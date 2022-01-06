@@ -1,12 +1,13 @@
 package com.coursera.algorithms.part1.week2;
 
+import edu.princeton.cs.algs4.StdOut;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
 
-  private Node<Item> last;
-  private Node<Item> first;
+  private Node last;
+  private Node first;
   private int size;
   // construct an empty deque
   public Deque() {}
@@ -26,7 +27,7 @@ public class Deque<Item> implements Iterable<Item> {
     if (item == null) {
       throw new IllegalArgumentException("Argument cannot be null");
     }
-    Node<Item> newNode = new Node<>(item);
+    Node newNode = new Node(item);
     if (first != null) {
       newNode.next = first;
       first.prev = newNode;
@@ -43,15 +44,14 @@ public class Deque<Item> implements Iterable<Item> {
     if (item == null) {
       throw new IllegalArgumentException("Argument cannot be null");
     }
-    Node<Item> newNode = new Node<>(item);
+    Node newNode = new Node(item);
     if (last != null) {
       last.next = newNode;
       newNode.prev = last;
-      last = newNode;
     } else {
       first = newNode;
-      last = newNode;
     }
+    last = newNode;
     size++;
   }
 
@@ -63,9 +63,13 @@ public class Deque<Item> implements Iterable<Item> {
     if (first.next != null) {
       first.next.prev = null;
     }
-    Node<Item> firstNode = first;
+    Node firstNode = first;
     first = first.next;
     size--;
+    if(size == 0) {
+      first = null;
+      last = null;
+    }
     return firstNode.val;
   }
 
@@ -77,58 +81,26 @@ public class Deque<Item> implements Iterable<Item> {
     if (last.prev != null) {
       last.prev.next = null;
     }
-    Node<Item> lastNode = last;
+    Node lastNode = last;
     last = last.prev;
     size--;
+    if(size == 0) {
+      first = null;
+      last = null;
+    }
     return lastNode.val;
-  }
-
-  // return first item (but not remove it from queue
-  public Item getFirst() {
-    if (isEmpty()) {
-      throw new NoSuchElementException("No element exist");
-    }
-    return first.val;
-  }
-
-  public Item getLast() {
-    if (isEmpty()) {
-      throw new NoSuchElementException("No element exist");
-    }
-    return last.val;
-  }
-
-  public Item get(int index) {
-    if (index >= size) {
-      throw new NoSuchElementException("No element exist at index : " + index);
-    }
-    Node<Item> node = first;
-    for (int i = 0; i < index; i++) {
-      node = node.next;
-    }
-    return node.val;
-  }
-
-  Node<Item> getfirstNode() {
-    return first;
-  }
-
-  Node<Item> getLastNode() {
-    return last;
   }
 
   // return an iterator over items in order from front to back
   public Iterator<Item> iterator() {
-    return new LinkedListIterator(first, last);
+    return new LinkedListIterator();
   }
 
   private class LinkedListIterator implements Iterator<Item> {
     Node start;
-    Node end;
 
-    LinkedListIterator(Node<Item> first, Node<Item> last) {
+    LinkedListIterator() {
       this.start = first;
-      this.end = last;
     }
 
     @Override
@@ -141,7 +113,7 @@ public class Deque<Item> implements Iterable<Item> {
       if (!hasNext()) {
         throw new NoSuchElementException("No more elements");
       }
-      Node<Item> node = start;
+      Node node = start;
       start = start.next;
       return node.val;
     }
@@ -152,10 +124,10 @@ public class Deque<Item> implements Iterable<Item> {
     }
   }
 
-  public static class Node<Item> {
+  private class Node {
     Item val;
-    Node<Item> next;
-    Node<Item> prev;
+    Node next;
+    Node prev;
 
     public Node(Item val) {
       this.val = val;
@@ -165,9 +137,30 @@ public class Deque<Item> implements Iterable<Item> {
   // unit testing (required)
   public static void main(String[] args) {
     Deque<Integer> deque = new Deque<>();
-    for(int i=0; i<10; i++) {
-      deque.addLast(i);
-    }
-
+    assert deque.isEmpty();
+    deque.addFirst(1);
+    deque.addFirst(2);
+    assert 2 == deque.size();
+    deque.removeLast();
+    assert 1 == deque.size();
+    deque.removeLast();
+    deque.addLast(1);
+    deque.addLast(2);
+    assert 2 == deque.size();
+    deque.removeFirst();
+    assert 1 == deque.size();
+    deque.removeLast();
+    deque.addFirst(1);
+    deque.addLast(2);
+    assert 2 == deque.size();
+    deque.removeFirst();
+    assert 1 == deque.size();
+    deque.addLast(1);
+    deque.addFirst(1);
+    assert 3 == deque.size();
+    deque.removeLast();
+    assert 2 == deque.size();
+    assert !deque.isEmpty();
+    StdOut.println("Basic tests passed");
   }
 }

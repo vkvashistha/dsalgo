@@ -253,4 +253,14 @@ public class DequeTest {
     Assert.assertEquals(2,deque.size());
   }
 
+  @Test
+  public void randomOperation() {
+    Deque<Integer> deque = new Deque<>();
+    Assert.assertTrue(deque.isEmpty());
+    deque.addFirst(2);
+    Assert.assertEquals(Integer.valueOf(2),deque.removeLast());
+    deque.addFirst(4);
+    Assert.assertEquals(Integer.valueOf(4), deque.removeLast());
+  }
+
 }

@@ -4,10 +4,10 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 /** Percolation class. */
 public class Percolation {
+  private static final int TOP = 0;
   private final boolean[][] openedSites;
   private int openSites;
   private final WeightedQuickUnionUF uf;
-  private final int top = 0;
   private final int bottom;
 
   // creates n-by-n grid, with all sites initially blocked
@@ -34,7 +34,7 @@ public class Percolation {
     int j = col - 1;
     openedSites[i][j] = true;
     if (row == 1) {
-      uf.union(getIndex(row, col), top);
+      uf.union(getIndex(row, col), TOP);
     } else if (row == openedSites.length) {
       uf.union(getIndex(row, col), bottom);
     }
@@ -93,7 +93,7 @@ public class Percolation {
               row, col, openedSites.length, openedSites.length));
     }
 
-    return uf.find(top) == uf.find(getIndex(row, col));
+    return uf.find(TOP) == uf.find(getIndex(row, col));
   }
 
   /**
@@ -107,7 +107,7 @@ public class Percolation {
 
   // does the system percolate?
   public boolean percolates() {
-    return uf.find(top) == uf.find(bottom);
+    return uf.find(TOP) == uf.find(bottom);
   }
 
   // test client (optional)
