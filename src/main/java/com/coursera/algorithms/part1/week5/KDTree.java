@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class KDTree {
   private Node root;
   private int size;
-  private RectHV canvas;
+  private final RectHV canvas;
   // construct an empty set of points
   public KDTree() {
     canvas = new RectHV(0,0,1,1);
@@ -60,24 +60,22 @@ public class KDTree {
       }
       level++;
     }
+    RectHV parentRect = parent.rect;
+    RectHV childRect;
     if (toLeft) {
-      RectHV parentRect = parent.rect;
-      RectHV childRect = null;
       if((level-1)%2 == 0) {
         childRect = new RectHV(parentRect.xmin(), parentRect.ymin(), parent.point.x(), parentRect.ymax());
       } else {
         childRect = new RectHV(parentRect.xmin(), parentRect.ymin(), parentRect.xmax(), parent.point.y());
       }
-      parent.left = new Node(p,childRect);
+      parent.left = new Node(p, childRect);
     } else {
-      RectHV parentRect = parent.rect;
-      RectHV childRect = null;
       if((level-1)%2 == 0) {
         childRect = new RectHV(parent.point.x(), parentRect.ymin(), parentRect.xmax(), parentRect.ymax());
       } else {
         childRect = new RectHV(parentRect.xmin(), parent.point.y(), parentRect.xmax(), parentRect.ymax());
       }
-      parent.right = new Node(p,childRect);
+      parent.right = new Node(p, childRect);
     }
     size++;
   }
@@ -171,7 +169,7 @@ public class KDTree {
     if(root == null) return null;
     Point2D p1 = nearest(root.left, 1, p, root.point,root.point.distanceTo(p));
     Point2D p2 = nearest(root.right, 1, p, root.point,root.point.distanceTo(p));
-    Point2D minPoint = null;
+    Point2D minPoint;
     if(p.distanceTo(p1) < p.distanceTo(p2)) {
       minPoint = p1;
     } else {
@@ -219,7 +217,7 @@ public class KDTree {
     }
   }
 
-  private class Node {
+  private static class Node {
     Point2D point;
     Node left;
     Node right;
