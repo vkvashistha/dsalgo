@@ -152,12 +152,18 @@ public class KDTree {
           range(rect, node.right, level + 1, result);
         } else if (node.point.x() >= rect.xmax()) {
           range(rect, node.left, level + 1, result);
+        } else {
+          range(rect, node.left, level + 1, result);
+          range(rect, node.right, level + 1, result);
         }
       } else {
         if (node.point.y() <= rect.ymin()) {
           range(rect, node.right, level + 1, result);
         } else if (node.point.y() >= rect.ymax()) {
           range(rect, node.left, level + 1, result);
+        } else {
+          range(rect, node.left, level + 1, result);
+          range(rect, node.right, level + 1, result);
         }
       }
     }

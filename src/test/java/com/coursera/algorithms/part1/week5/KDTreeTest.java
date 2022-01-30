@@ -118,4 +118,46 @@ public class KDTreeTest {
       Assert.assertTrue(expected.contains(point));
     }
   }
+
+  @Test
+  public void rangeTest() {
+    String testData = "A  0.53125 0.59375\n" +
+                          "      B  0.9375 0.65625\n" +
+                          "      C  0.25 0.0625\n" +
+                          "      D  0.46875 0.90625\n" +
+                          "      E  0.1875 0.9375\n" +
+                          "      F  0.84375 0.5\n" +
+                          "      G  0.75 0.8125\n" +
+                          "      H  0.125 0.46875\n" +
+                          "      I  0.03125 0.28125\n" +
+                          "      J  0.5625 1.0\n" +
+                          "      K  0.625 0.625\n" +
+                          "      L  0.0625 0.0\n" +
+                          "      M  0.21875 0.09375\n" +
+                          "      N  0.28125 0.40625\n" +
+                          "      O  0.59375 0.25\n" +
+                          "      P  1.0 0.5625\n" +
+                          "      Q  0.71875 0.1875\n" +
+                          "      R  0.6875 0.71875\n" +
+                          "      S  0.4375 0.53125\n" +
+                          "      T  0.3125 0.34375";
+    String []lines = testData.split("\n");
+    Point2D []points = new Point2D[lines.length];
+    KDTree kdTree = new KDTree();
+    for(int i=0; i<lines.length; i++) {
+      String []tokens = lines[i].trim().split(" ");
+      points[i] = new Point2D(Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
+      kdTree.insert(points[i]);
+    }
+
+    //    A H I N S T K O Q
+    RectHV rectHV1 = new RectHV(0.0, 0.6875, 0.15625, 0.8125);
+    RectHV rectHV2 = new RectHV(0.0, 0.15625,0.8125,  0.6875);
+    Iterable<Point2D> range = kdTree.range(rectHV2);
+    int count = 0;
+    for(Point2D point : range) {
+      count++;
+    }
+    Assert.assertEquals(9,count);
+  }
 }
