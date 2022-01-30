@@ -160,4 +160,35 @@ public class KDTreeTest {
     }
     Assert.assertEquals(9,count);
   }
+
+  @Test
+  public void nearestTest() {
+    String testData = "A  0.125 0.125\n" +
+                          "      B  1.0 0.625\n" +
+                          "      C  1.0 0.25\n" +
+                          "      D  0.875 0.5\n" +
+                          "      E  1.0 0.375\n" +
+                          "      F  0.25 0.0\n" +
+                          "      G  0.5 0.125\n" +
+                          "      H  0.25 0.125\n" +
+                          "      I  0.125 0.25\n" +
+                          "      J  0.0 1.0\n" +
+                          "      K  0.5 0.0\n" +
+                          "      L  0.75 1.0\n" +
+                          "      M  0.375 0.375\n" +
+                          "      N  0.125 0.5\n" +
+                          "      O  0.0 0.625";
+    String []lines = testData.split("\n");
+    KDTree kdTree = new KDTree();
+    Point2D []points = new Point2D[lines.length];
+    for(int i=0; i<lines.length; i++) {
+      String []tokens = lines[i].trim().split(" ");
+      points[i] = new Point2D(Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
+      kdTree.insert(points[i]);
+    }
+
+    Point2D point = kdTree.nearest(new Point2D(0.25, 0.5));
+    Assert.assertEquals(points[13], point);
+
+  }
 }

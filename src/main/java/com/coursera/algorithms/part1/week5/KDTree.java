@@ -201,16 +201,16 @@ public class KDTree {
       }
     } else {
       if(level%2 == 0) {
-        if(node.point.x() < p.x()) {
-          minPoint = nearest(node.right, level+1, p, minPoint, minDis);
-        } else {
+        if(node.point.x() > p.x()) {
           minPoint = nearest(node.left, level+1, p, minPoint, minDis);
+        } else {
+          minPoint = nearest(node.right, level+1, p, minPoint, minDis);
         }
       } else {
-        if(node.point.y() < p.y()) {
-          minPoint = nearest(node.right, level+1, p, minPoint, minDis);
-        } else {
+        if(node.point.y() > p.y()) {
           minPoint = nearest(node.left, level+1, p, minPoint, minDis);
+        } else {
+          minPoint = nearest(node.right, level+1, p, minPoint, minDis);
         }
       }
     }
